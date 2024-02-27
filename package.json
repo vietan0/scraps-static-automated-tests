@@ -10,11 +10,9 @@
     "prettier": "prettier . --write",
     "preview": "vite preview",
     "prepare": "husky",
-    "test": "vitest run",
-    "commit": "commit"
+    "test": "vitest run"
   },
   "dependencies": {
-    "@commitlint/prompt-cli": "^19.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
