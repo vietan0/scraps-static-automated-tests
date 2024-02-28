@@ -1,0 +1,18 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`flyOnly 1`] = `
+[
+  {
+    "fly": true,
+    "name": "Homelander",
+  },
+  {
+    "fly": true,
+    "name": "Stormfront",
+  },
+  {
+    "fly": true,
+    "name": "Ryan",
+  },
+]
+`;
