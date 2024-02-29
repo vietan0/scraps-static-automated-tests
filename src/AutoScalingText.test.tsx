@@ -4,7 +4,6 @@ import { expect, test } from 'vitest';
 import AutoScalingText from './AutoScalingText';
 
 test('render', () => {
-  const { container, debug } = render(<AutoScalingText size="text-3xl" />);
-  debug();
+  const { container } = render(<AutoScalingText size="text-3xl" />);
   expect(container.firstChild).toMatchSnapshot();
 });
