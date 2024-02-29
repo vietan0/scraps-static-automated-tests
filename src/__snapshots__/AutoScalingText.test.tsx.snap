@@ -5,6 +5,6 @@ exports[`render 1`] = `
   class="text-3xl"
   id="ASTbananas"
 >
-  AutoScalingText
+  AutoScalingText Hey
 </div>
 `;
