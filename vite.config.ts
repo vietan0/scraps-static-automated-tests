@@ -7,6 +7,7 @@ import { configDefaults } from 'vitest/config';
 export default defineConfig({
   plugins: [react()],
   test: {
+    setupFiles: ['./vitest-setup.ts'],
     environment: 'happy-dom',
     coverage: {
       exclude: [...configDefaults.coverage.exclude!, '**/commitlint.config.*'],
