@@ -7,6 +7,7 @@ export default function FavNum({ min = 1, max = 9 }) {
     setNumber(Number(event.target.value));
     setNumberEntered(true);
   }
+
   const isValid = !numberEntered || (number >= min && number <= max);
   return (
     <div>
@@ -16,6 +17,7 @@ export default function FavNum({ min = 1, max = 9 }) {
         type="number"
         value={number}
         onChange={handleChange}
+        max={max}
       />
       {!isValid && <div role="alert">The number is invalid</div>}
     </div>

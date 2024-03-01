@@ -1,5 +1,4 @@
-import { cleanup, render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, expect, test } from 'vitest';
 
 import FavNum from './FavNum';
@@ -8,18 +7,24 @@ afterEach(cleanup);
 
 test('Render a number input with label Favorite Number', () => {
   render(<FavNum />);
-  const input = screen.getByLabelText('Favorite Number');
   const label = screen.getByText('Favorite Number');
-  expect(input).toHaveAttribute('type', 'number');
   expect(label).toHaveTextContent(/^Favorite Number$/);
 });
 
 test('Show error message when invalid input', async () => {
-  render(<FavNum />);
-  const user = userEvent.setup();
-  const input = screen.getByLabelText(/^Favorite Number$/);
+  const { rerender } = render(<FavNum />);
+  const input = screen.getByLabelText<HTMLInputElement>(/^Favorite Number$/);
 
-  await user.type(input, '10');
-  const alert = screen.getByRole('alert');
-  expect(alert).toHaveTextContent('The number is invalid');
+  fireEvent.change(input, {
+    target: { value: '10' },
+  });
+
+  expect(input).toHaveAttribute('max', '9');
+  expect(screen.queryByRole<HTMLDivElement>('alert')).toHaveTextContent(
+    'The number is invalid',
+  );
+
+  rerender(<FavNum max={20} />);
+  expect(input).toHaveAttribute('max', '20');
+  expect(screen.queryByRole<HTMLDivElement>('alert')).toBeNull();
 });

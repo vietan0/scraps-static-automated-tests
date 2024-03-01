@@ -11,6 +11,7 @@
     "preview": "vite preview",
     "prepare": "husky",
     "test": "vitest run",
+    "test:watch": "vitest",
     "type": "tsc",
     "check": "npm-run-all -p type lint prettier test"
   },
