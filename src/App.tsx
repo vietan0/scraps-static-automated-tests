@@ -1,9 +1,17 @@
-import AutoScalingText from './AutoScalingText';
+import { ErrorBoundary } from './ErrorBoundary';
 
+function Bomb({ shouldThrow = false }: { shouldThrow?: boolean }) {
+  if (shouldThrow) {
+    throw new Error('💣');
+  } else return <p>Defused</p>;
+}
 export default function App() {
   return (
     <div id="App">
-      <AutoScalingText size="3xl" />
+      {/* <LogComp /> */}
+      <ErrorBoundary>
+        <Bomb />
+      </ErrorBoundary>
     </div>
   );
 }
