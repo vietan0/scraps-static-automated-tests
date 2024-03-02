@@ -1,17 +1,9 @@
-import { ErrorBoundary } from './ErrorBoundary';
+import MovingComp from './MovingComp';
 
-function Bomb({ shouldThrow = false }: { shouldThrow?: boolean }) {
-  if (shouldThrow) {
-    throw new Error('💣');
-  } else return <p>Defused</p>;
-}
 export default function App() {
   return (
     <div id="App">
-      {/* <LogComp /> */}
-      <ErrorBoundary>
-        <Bomb />
-      </ErrorBoundary>
+      <MovingComp />
     </div>
   );
 }
