@@ -1,9 +1,9 @@
-import GetIss from './test-apis/GetIss';
+import CatForm from './tdd-form/CatForm';
 
 export default function App() {
   return (
     <div id="App">
-      <GetIss />
+      <CatForm />
     </div>
   );
 }
