@@ -1,9 +1,9 @@
-import MovingComp from './MovingComp';
+import GetIss from './test-apis/GetIss';
 
 export default function App() {
   return (
     <div id="App">
-      <MovingComp />
+      <GetIss />
     </div>
   );
 }
