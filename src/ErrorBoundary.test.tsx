@@ -20,20 +20,12 @@ afterAll(() => {
 });
 
 test('ErrorBoundary renders fallback UI', () => {
-  const { rerender } = render(
-    <ErrorBoundary>
-      <Bomb shouldThrow />
-    </ErrorBoundary>,
-  );
+  const { rerender } = render(<Bomb shouldThrow />, { wrapper: ErrorBoundary });
   screen.debug();
   expect(console.error).toBeCalledTimes(2);
   expect(screen.getByRole('alert')).toHaveTextContent('There was an error');
 
-  rerender(
-    <ErrorBoundary>
-      <Bomb />
-    </ErrorBoundary>,
-  );
+  rerender(<Bomb />);
   mockCer.mockClear();
 
   // simulate click
