@@ -9,12 +9,16 @@ export default function CatForm() {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const { data, date } = await fetchCatFacts({
-      id: value,
-      date: new Date().toISOString(),
-    });
-    setResult(typeof data === 'object' ? data.data[0] : '');
-    setDate(date);
+    try {
+      const { data, date } = await fetchCatFacts({
+        id: value,
+        date: new Date().toISOString(),
+      });
+      setResult(typeof data === 'object' ? data.data[0] : '');
+      setDate(date);
+    } catch (error) {
+      setResult('Error fetching cat facts');
+    }
   }
 
   return (
