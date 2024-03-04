@@ -1,9 +1,14 @@
-import CatForm from './tdd-form/CatForm';
+import { Link, Outlet } from 'react-router-dom';
 
 export default function App() {
   return (
-    <div id="App">
-      <CatForm />
+    <div className="p-12" id="App">
+      <div className="flex gap-4">
+        <Link to="/">Home</Link>
+        <Link to="/about">About</Link>
+        <Link to="/pricing">Pricing</Link>
+      </div>
+      <Outlet />
     </div>
   );
 }
