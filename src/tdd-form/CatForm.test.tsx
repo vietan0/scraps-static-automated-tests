@@ -4,9 +4,18 @@ import { expect, test, vi } from 'vitest';
 import { fetchCatFacts } from './api';
 import CatForm from './CatForm';
 
-vi.mock('./api');
-vi.mocked(fetchCatFacts).mockResolvedValueOnce({
-  data: ['Each cat has 5 legs, but a kitten only has 4 and a half.'],
+vi.mock('./api', () => {
+  return {
+    fetchCatFacts: vi.fn(
+      async ({ id = '0', date }: { id: string; date: string }) => ({
+        data: {
+          data: [`Post ${id}: Cat has 4 thumbs and 8 legs`],
+          date,
+        },
+      }),
+    ),
+    meow: vi.fn(() => console.log('woof')),
+  };
 });
 
 test('CatForm works', async () => {
@@ -15,13 +24,25 @@ test('CatForm works', async () => {
   const button = screen.getByText(/send/i);
   const result = screen.getByText(/result/i);
 
-  expect(result).not.toHaveTextContent(/cat|kitten/i);
+  const beginWindow = Date.now();
+
   fireEvent.change(input, { target: { value: '9' } });
   fireEvent.click(button);
   expect(fetchCatFacts).toHaveBeenCalledTimes(1);
-  expect(fetchCatFacts).toHaveBeenCalledWith('9');
+
+  const endWindow = Date.now();
+
+  const timeCalled = vi.mocked(fetchCatFacts).mock.calls[0][0].date;
+  const timeNum = Date.parse(timeCalled);
+
+  expect(fetchCatFacts).toHaveBeenCalledWith({
+    id: '9',
+    date: timeCalled,
+  });
+  expect(timeNum).toBeGreaterThanOrEqual(beginWindow);
+  expect(timeNum).toBeLessThanOrEqual(endWindow);
+
   await waitFor(() => {
-    expect(result).toHaveTextContent(/cat|kitten/i);
-    screen.debug(result);
+    expect(result).toHaveTextContent('Post 9: Cat has 4 thumbs and 8 legs');
   });
 });
