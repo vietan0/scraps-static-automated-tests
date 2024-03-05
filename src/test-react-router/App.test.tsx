@@ -1,21 +1,28 @@
-import { fireEvent, render, screen } from '@testing-library/react';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { expect, test } from 'vitest';
+import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { createMemoryRouter, RouterProvider } from 'react-router-dom';
+import { afterEach, expect, test } from 'vitest';
 
 import App from '../App';
 import About from './About';
+import { getContact, getContacts } from './api';
+import Home from './Home';
 import NotFound from './NotFound';
 import Pricing from './Pricing';
 
-// copy from main.tsx
-const router = createBrowserRouter([
+const routes = [
   {
     path: '/',
     element: <App />,
     children: [
       {
+        path: 'home',
+        element: <Home />,
+        loader: getContacts,
+      },
+      {
         path: 'about',
         element: <About />,
+        loader: () => getContact('15x9'),
       },
       {
         path: 'pricing',
@@ -24,13 +31,30 @@ const router = createBrowserRouter([
     ],
     errorElement: <NotFound />,
   },
-]);
+];
+const testRouter = createMemoryRouter(routes, {
+  initialEntries: ['/pricing', '/', '/about'],
+  initialIndex: 1,
+});
+
+afterEach(cleanup);
 
 test('Going to other route works', async () => {
-  render(<RouterProvider router={router} />);
+  render(<RouterProvider router={testRouter} />);
 
-  const linkToAbout = screen.getByText(/About/i);
+  const linkToAbout = await screen.findByRole('link', { name: /About/i });
+  const linkToPricing = await screen.findByRole('link', { name: /Pricing/i });
   expect(screen.queryByRole('heading')).not.toBeInTheDocument();
   fireEvent.click(linkToAbout);
-  expect(screen.queryByRole('heading')).toHaveTextContent(/About/i);
+  expect(await screen.findByText('Sarah')).toBeInTheDocument();
+  fireEvent.click(linkToPricing);
+  expect(await screen.findByRole('heading')).toHaveTextContent(/Pricing/i);
+});
+
+test('404 route works', () => {
+  const testRouter = createMemoryRouter(routes, {
+    initialEntries: ['/typo-in-route'],
+  });
+  render(<RouterProvider router={testRouter} />);
+  expect(screen.queryByRole('heading')).toHaveTextContent('Oops');
 });
