@@ -1,9 +1,9 @@
-import CounterDisplay from './test-custom-hooks/CounterDisplay';
+import Popup from './test-portal/Popup';
 
 export default function App() {
   return (
     <div className="p-12" id="App">
-      <CounterDisplay />
+      <Popup>Hey Bro</Popup>
     </div>
   );
 }
