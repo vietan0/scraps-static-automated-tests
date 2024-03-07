@@ -8,5 +8,5 @@ export default function useCounter(args?: { init?: number; by?: number }) {
   const increment = () => setCount((p) => p + by);
   const decrement = () => setCount((p) => p - by);
 
-  return { count, increment, decrement };
+  return { count, random: Math.random().toFixed(2), increment, decrement };
 }
