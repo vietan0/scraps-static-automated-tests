@@ -18,8 +18,9 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "types": ["cypress", "@testing-library/cypress"]
   },
-  "include": ["src", "./vitest-setup.ts"],
+  "include": ["src", "./vitest-setup.ts", "cypress"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
